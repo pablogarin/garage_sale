@@ -1,18 +1,17 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from "react-router-dom";
 import ProductTile from './ProductTile';
 
 const Catalogue = (props) => {
   const {
     products,
-    name,
-    setProduct
+    name
   } = props;
+  const history = useHistory();
   const showDetails = (product) => {
-    return () => {
-      setProduct(product);
-    }
+    history.push(`/product/${product._id}`);
   }
   return (
     <>
@@ -20,7 +19,7 @@ const Catalogue = (props) => {
       <Grid container spacing={2}>
       { !!products ? products.map(product => (
         <Grid item xs={3} key={product._id}>
-          <ProductTile showDetails={showDetails(product)} {...product} />
+          <ProductTile showDetails={() => showDetails(product)} {...product} />
         </Grid>
       )) : (
         <Typography gutterBottom variant="h5" component="h2">

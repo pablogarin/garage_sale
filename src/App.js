@@ -4,39 +4,40 @@ import {
   Route,
   useHistory,
   useLocation,
-  useRouteMatch
 } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Header from './components/Header';
 import Catalogue from './components/Catalogue';
 import ProductDetail from './components/ProductDetail';
+import useRoute from './hooks/useRoute';
+import CategoryClient from './api/CategoryClient';
+
+const categoryClient = new CategoryClient('http://localhost:5000');
 
 function App() {
   const [product, setProduct] = useState(null);
-  const [productList, setProductList] = useState([]);
+  const [category, setCategory] = useState(null);
   const history = useHistory();
   const location = useLocation();
-  const isPathProduct = useRouteMatch('/product/:productId')
+  const [productId, categoryId] = useRoute(location);
+
   useEffect(() => {
-    const product = {
-      _id: parseInt(Math.random()*1000),
-      name: 'Lavadora Samsung',
-      image: '/img/Lavadora.png',
-      price: 200000,
-      availableDate: Date()
-    }
-    setProductList([product, product])
+    categoryClient.get("0", (category) => {
+      setCategory(category);
+    });
   }, []);
   useEffect(() => {
-    if (product) {
-      history.push(`/product/${product._id}`)
+    if (productId && category?.productList) {
+      const product = category.productList.find(prod => `${prod._id}` === productId);
+      setProduct(product);
     }
-  }, [product, history]);
-  console.log('LOCATION', location);
-  useEffect(() => {
-    
-  }, [location]);
+    if (categoryId) {
+      categoryClient.get(categoryId, (category) => {
+        setCategory(category);
+      });
+    }
+  }, [productId, categoryId, category]);
   return (
     <div>
       <CssBaseline />
@@ -47,13 +48,13 @@ function App() {
             <h1>Carro</h1>
           </Route>
           <Route path="/category/:categoryName">
-            <Catalogue></Catalogue>
+            <Catalogue {...category}></Catalogue>
           </Route>
           <Route path="/product/:productId">
             <ProductDetail {...product}></ProductDetail>
           </Route>
           <Route path="/">
-            <Catalogue name="home" products={productList} setProduct={setProduct}></Catalogue>
+            <Catalogue {...category}></Catalogue>
           </Route>
         </Switch>
       </Container>
