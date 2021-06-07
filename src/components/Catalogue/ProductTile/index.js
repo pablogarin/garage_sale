@@ -40,7 +40,7 @@ const ProductTile = (props) => {
         <CardMedia
           component="img"
           alt={name}
-          clasName={classes.media}
+          className={classes.media}
           image={image}
           title={name}
         />

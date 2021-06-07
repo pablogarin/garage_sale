@@ -3,7 +3,8 @@ import {
   Switch,
   Route,
   useHistory,
-  useLocation
+  useLocation,
+  useRouteMatch
 } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -16,6 +17,7 @@ function App() {
   const [productList, setProductList] = useState([]);
   const history = useHistory();
   const location = useLocation();
+  const isPathProduct = useRouteMatch('/product/:productId')
   useEffect(() => {
     const product = {
       _id: parseInt(Math.random()*1000),
@@ -31,8 +33,9 @@ function App() {
       history.push(`/product/${product._id}`)
     }
   }, [product, history]);
+  console.log('LOCATION', location);
   useEffect(() => {
-
+    
   }, [location]);
   return (
     <div>
