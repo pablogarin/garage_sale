@@ -11,13 +11,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
+import Cart from './Cart';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     color: '#fff',
+    marginBottom: 64,
   },
   title: {
     flexGrow: 1,
@@ -25,22 +26,12 @@ const useStyles = makeStyles((theme) => ({
   cartButton: {
     color: '#fff',
   },
-}))
+}));
 
-const Header = () => {
+const Header = ({ categories }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const history = useHistory();
   const classes = useStyles();
-  const categories = [
-    {
-      id: 0,
-      name: 'Home'
-    },
-    {
-      id: 1,
-      name: 'Electrodomesticos'
-    }
-  ]
   const toggleMenu = (state=null, event) => {
     if (event && (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))) {
       return;
@@ -61,7 +52,7 @@ const Header = () => {
   }
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -73,9 +64,7 @@ const Header = () => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title}>Venta de Garage</Typography>
-          <IconButton aria-label="Carro" className={classes.cartButton}>
-            <ShoppingCartOutlinedIcon />
-          </IconButton>
+          <Cart />
         </Toolbar>
       </AppBar>
       <Drawer

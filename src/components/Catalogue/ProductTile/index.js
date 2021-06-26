@@ -8,6 +8,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import useCart, {
+  CART_ADD,
+} from '../../../hooks/useCart';
+import { asPrice } from '../../../utils/productUtils';
 
 const useStyles = makeStyles({
   root: {
@@ -20,17 +24,34 @@ const useStyles = makeStyles({
 
 const ProductTile = (props) => {
   const {
+    id,
     name,
     image,
     price,
     availableDate,
     showDetails
   } = props;
-  const asPrice = (value) => {
-    if (isNaN(value)) return '$ - '; 
-    return `$ ${String(price).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}`
-  }
+
+  const [cart, dispatch] = useCart();
+  const isProductInCart = !!(cart?.products && cart.products.find(prd => prd.id === id));
+
   const classes = useStyles();
+
+  const addToCart = () => {
+    const product = {
+      id,
+      name,
+      price,
+      availableDate
+    }
+    dispatch({
+      type: CART_ADD,
+      payload: {
+        product
+      }
+    });
+  }
+
   return (
     <Card>
       <CardActionArea onClick={showDetails}>
@@ -43,6 +64,9 @@ const ProductTile = (props) => {
           className={classes.media}
           image={image}
           title={name}
+          onError={(e) => {
+            e.target.src = '/img/no-image-icon.png';
+          }}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -54,8 +78,13 @@ const ProductTile = (props) => {
         </CardContent>  
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Agregar al Carro
+        <Button
+          size="small"
+          color="primary"
+          onClick={addToCart}
+          disabled={isProductInCart}
+        >
+          {isProductInCart ? 'Producto Agregado' : 'Agregar al Carro'}
         </Button>
       </CardActions>
     </Card>
