@@ -16,7 +16,7 @@ const ProductDetail = (props) => {
   const [product, setProduct] = useState(null);
   const [cart, dispatch] = useCart();
   const [links, setLinks] = useState();
-  const isProductInCart = product && cart?.products && cart.products.find(prd => prd.id === product.id);
+  const isProductInCart = !!(product && cart?.products && cart.products.find(prd => prd.id === product.id));
 
   const params = useParams();
   const { productId } = params;
