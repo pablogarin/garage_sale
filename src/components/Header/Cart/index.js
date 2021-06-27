@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 import useCart, { CART_DEL } from '../../../hooks/useCart';
 
 const Cart = () => {
-  const [cart, dispatch, loadingCart] = useCart();
+  const [cart, dispatch] = useCart();
   const [products, setProducts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
@@ -28,10 +28,6 @@ const Cart = () => {
       setProducts(cart.products);
     }
   }, [cart]);
-
-  useEffect(() => {
-    console.log(loadingCart);
-  }, [loadingCart]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
