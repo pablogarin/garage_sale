@@ -85,7 +85,7 @@ const Catalogue = ({ categoryClient, productClient }) => {
               <FilterBar setSortMethod={setSortMethod} />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} alignItems="baseline">
             { !!products ? products.map(product => (
             <Grid item xs={3} key={product.id}>
               <ProductTile showDetails={() => showDetails(product)} {...product} />

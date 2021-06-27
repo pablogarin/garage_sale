@@ -11,13 +11,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Cart from './components/Cart';
 import CartContext from './context/CartContext';
 import Catalogue from './components/Catalogue';
+import Checkout from './components/Checkout';
 import CategoryClient from './api/CategoryClient';
 import Header from './components/Header';
 import ProductClient from './api/ProductClient';
 import ProductDetail from './components/ProductDetail';
+import ThankYouPage from './components/ThankYouPage';
 
-const categoryClient = new CategoryClient('http://localhost:5013');
-const productClient = new ProductClient('http://localhost:5013');
+const categoryClient = new CategoryClient(process.env.REACT_APP_API_URL);
+const productClient = new ProductClient(process.env.REACT_APP_API_URL);
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -41,7 +43,7 @@ function App() {
     <CartContext.Provider value={value}>
       <CssBaseline />
       <Header categories={categories}/>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Switch>
           <Route path="/cart">
             <Cart />
@@ -52,8 +54,11 @@ function App() {
           <Route path="/product/:productId">
             <ProductDetail productClient={productClient}></ProductDetail>
           </Route>
+          <Route path="/thank-you/:orderId">
+            <ThankYouPage />
+          </Route>
           <Route path="/checkout">
-            <h5>Checkout</h5>
+            <Checkout setIsLoading={setIsLoading} />
           </Route>
           <Route path="/">
             <Catalogue productClient={productClient}></Catalogue>

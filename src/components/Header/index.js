@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -51,7 +52,7 @@ const Header = ({ categories }) => {
     toggleMenu(false);
   }
   return (
-    <div className={classes.root}>
+    <Box className={classes.root} displayPrint="none">
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
@@ -80,7 +81,7 @@ const Header = ({ categories }) => {
           ))}
         </List>
       </Drawer>
-    </div>
+    </Box>
   );
 }
 
