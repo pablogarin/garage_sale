@@ -127,7 +127,7 @@ const Cart = () => {
               color="secondary"
               onClick={() => goToCheckout()}
             >
-              Pagar
+              Completar Compra&nbsp;
               <ArrowForwardIosIcon />
             </Button>
           </Grid>
