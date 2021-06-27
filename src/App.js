@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import CartContext from './context/CartContext';
 import Header from './components/Header';
 import Catalogue from './components/Catalogue';
+import Cart from './components/Cart';
 import ProductDetail from './components/ProductDetail';
 import CategoryClient from './api/CategoryClient';
 import ProductClient from './api/ProductClient';
@@ -32,7 +33,7 @@ function App() {
       <Container maxWidth="md">
         <Switch>
           <Route path="/cart">
-            <h1>Carro</h1>
+            <Cart />
           </Route>
           <Route path="/category/:categoryId">
             <Catalogue categoryClient={categoryClient}></Catalogue>
@@ -44,7 +45,7 @@ function App() {
             <h5>Checkout</h5>
           </Route>
           <Route path="/">
-            <Catalogue categoryClient={categoryClient}></Catalogue>
+            <Catalogue productClient={productClient}></Catalogue>
           </Route>
         </Switch>
       </Container>

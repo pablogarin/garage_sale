@@ -14,12 +14,14 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Menu from '@material-ui/core/Menu';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from "react-router-dom";
 import useCart, { CART_DEL } from '../../../hooks/useCart';
 
 const Cart = () => {
   const [cart, dispatch, loadingCart] = useCart();
   const [products, setProducts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     if (cart) {
@@ -44,7 +46,8 @@ const Cart = () => {
     });
   }
   const goToCart = () => {
-    console.log('go to cart');
+    history.push('/cart');
+    setAnchorEl(null);
   }
   return (
     <>

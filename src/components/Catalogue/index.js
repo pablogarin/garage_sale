@@ -8,7 +8,7 @@ import Breadcrumb from '../Breadcrumb';
 import ProductTile from './ProductTile';
 import FilterBar from './FilterBar';
 
-const Catalogue = ({ categoryClient }) => {
+const Catalogue = ({ categoryClient, productClient }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [name, setName] = useState(null);
@@ -19,8 +19,8 @@ const Catalogue = ({ categoryClient }) => {
   const { categoryId } = params;
 
   useEffect(() => {
-    if (!name) {
-      console.log('fetching category');
+    setIsLoading(true);
+    if (categoryId) {
       categoryClient.get(categoryId, (category) => {
         setLinks([
           {
@@ -36,8 +36,14 @@ const Catalogue = ({ categoryClient }) => {
         setProducts(category.products);
         setIsLoading(false);
       })
+    } else {
+      productClient.getAll((products) => {
+        setName('Home');
+        setProducts(products);
+        setIsLoading(false);
+      });
     }
-  }, [name, categoryClient, categoryId]);
+  }, [categoryClient, productClient, categoryId]);
 
   useEffect(() => {
     if (sortMethod) {
@@ -73,7 +79,7 @@ const Catalogue = ({ categoryClient }) => {
       {isLoading ? renderSkeleton() : (
         <>
           <Breadcrumb links={links} />
-          <h1>Categoría {name}</h1>
+          <Typography variant="h4">Categoría {name}</Typography>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FilterBar setSortMethod={setSortMethod} />
