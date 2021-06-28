@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,9 +8,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
 import { asPrice } from '../../../../utils/productUtils';
 
 const Summary = ({ cart }) => {
+  const history = useHistory();
+  const goToCart = () => {
+    history.push('/cart');
+  }
   return (
     <>
       <TableContainer component={Paper}>
@@ -20,7 +26,7 @@ const Summary = ({ cart }) => {
                 <Typography variant="subtitle1">Resumen</Typography>
               </TableCell>
               <TableCell align="right">
-                <Typography>Editar Carro</Typography>
+                <Link onClick={() => goToCart()} variant="link">Editar Carro</Link>
               </TableCell>
             </TableRow>
             <TableRow>

@@ -36,7 +36,7 @@ const PaymentForm = () => {
           </Box>
           <Typography variant="body1">Una vez realizado el pago debe enviar el comprobante al correo <strong>pablo.garin@hotmail.com</strong>.</Typography>
           <Box mt={1}>
-            <Typography variant="body2">*: La reserva del producto dura 24 horas. Si realiza su deposito después de esto es posible que el producto ya no posea stock. En caso de que esto suceda, por favor contactese con nosotros y el dinero será devuelto.</Typography>
+            <Typography variant="body2">*: La reserva del producto dura 2 horas. Si realiza su deposito después de esto es posible que el producto ya no posea stock. En caso de que esto suceda, por favor contactese con nosotros y el dinero será devuelto.</Typography>
           </Box>
         </Grid>
       </Grid>

@@ -39,6 +39,10 @@ const useCart = () => {
     switch(action.type) {
       case CART_ADD:{
         const { product } = action.payload;
+        console.log(product);
+        if (product.stock <= 0) {
+          throw new Error('not enough stock');
+        }
         cartClient.updateCart(
           cartId,
           { products: [{ ...product, quantity: 1 }] },

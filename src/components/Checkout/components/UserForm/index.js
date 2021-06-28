@@ -31,9 +31,9 @@ const UserForm = ({ userClient, userData, setUserData, setIsLoading }) => {
         setPhone(client.phone);
         setIsLoading(false);
       } catch (err) {
-        setName('');
-        setLastName('');
-        setPhone('');
+        setName(name => name ? name : '');
+        setLastName(lastName => lastName ? lastName : '');
+        setPhone(phone => phone ? phone : '');
         setIsLoading(false);
       }
     }

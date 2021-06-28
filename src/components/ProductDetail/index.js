@@ -46,12 +46,26 @@ const ProductDetail = (props) => {
   }, [productClient, productId]);
 
   const addToCart = () => {
-    dispatch({
-      type: CART_ADD,
-      payload: {
-        product
-      }
-    });
+    try {
+      dispatch({
+        type: CART_ADD,
+        payload: {
+          product
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const buttonText = () => {
+    if (isProductInCart) {
+      return 'Producto Agregado';
+    }
+    if (product.stock <= 0) {
+      return 'Sin Stock';
+    }
+    return 'Agregar al Carro';
   }
 
   return (
@@ -82,9 +96,9 @@ const ProductDetail = (props) => {
                         <Button
                           onClick={() => addToCart()}
                           variant="contained"
-                          disabled={isProductInCart}
+                          disabled={isProductInCart || product?.stock <= 0}
                         >
-                          {isProductInCart ? 'Producto Agregado' : 'Agregar al Carro'}
+                          {buttonText()}
                         </Button>
                       </Grid>
                     </Grid>

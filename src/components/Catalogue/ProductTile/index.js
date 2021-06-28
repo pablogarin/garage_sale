@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import useCart, {
   CART_ADD,
 } from '../../../hooks/useCart';
@@ -29,7 +30,8 @@ const ProductTile = (props) => {
     image,
     price,
     availableDate,
-    showDetails
+    showDetails,
+    stock
   } = props;
 
   const [cart, dispatch] = useCart();
@@ -42,14 +44,29 @@ const ProductTile = (props) => {
       id,
       name,
       price,
-      availableDate
+      availableDate,
+      stock
     }
-    dispatch({
-      type: CART_ADD,
-      payload: {
-        product
-      }
-    });
+    try {
+      dispatch({
+        type: CART_ADD,
+        payload: {
+          product
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const buttonText = () => {
+    if (isProductInCart) {
+      return 'Producto Agregado';
+    }
+    if (stock <= 0) {
+      return 'Sin Stock';
+    }
+    return 'Agregar al Carro';
   }
 
   return (
@@ -78,14 +95,16 @@ const ProductTile = (props) => {
         </CardContent>  
       </CardActionArea>
       <CardActions>
-        <Button
-          size="small"
-          color="primary"
-          onClick={addToCart}
-          disabled={isProductInCart}
-        >
-          {isProductInCart ? 'Producto Agregado' : 'Agregar al Carro'}
-        </Button>
+        <Grid container justify="center">
+          <Button
+            color="primary"
+            onClick={addToCart}
+            disabled={isProductInCart || stock <= 0}
+            variant="contained"
+          >
+            {buttonText()}
+          </Button>
+        </Grid>
       </CardActions>
     </Card>
   );

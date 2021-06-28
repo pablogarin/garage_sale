@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ThankYouPage = () => {
   const [order, setOrder] = useState(null);
+  const [client, setClient] = useState(null);
   const history = useHistory();
   const { orderId } = useParams();
   
@@ -71,6 +72,7 @@ const ThankYouPage = () => {
   useEffect(() => {
     orderClient.get(orderId, (order) => {
       setOrder(order);
+      setClient(order.user);
     })
   }, [orderId]);
 
@@ -100,7 +102,7 @@ const ThankYouPage = () => {
               Su compra fue finalizada con éxito.
             </Typography>
             <Typography variant="body1" gutterBottom className={classes.print}>
-              Recuerde que para que su compra quede confirmada, debe realizar el deposito por el total de la compra antes de 24 horas, o de lo contrario la compra se invalidará y los productos volverán a estar a la venta.
+              Recuerde que para que su compra quede confirmada, debe realizar el deposito por el total de la compra antes de 2 horas, o de lo contrario la compra se invalidará y los productos volverán a estar a la venta.
             </Typography>
             <Typography variant="body1" className={classes.print}>
               Una vez haya realizado el deposito, debe enviar un correo con el comprobante de pago al correo <strong>pablo.garin@hotmail.com</strong>, con el asunto <strong>&quot;Comprobante de pago de orden {order?.id}&quot;.</strong>
@@ -117,11 +119,40 @@ const ThankYouPage = () => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>
+                    <TableCell colSpan={2}>
                       <Typography variant="h6" className={classes.print}>Fecha de Compra</Typography>
                     </TableCell>
-                    <TableCell colSpan={2} align="right">
+                    <TableCell align="right">
                       <Typography variant="h6" className={classes.print}>{order && formatDate(order.date)}</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Typography variant="h6" className={classes.print}>Cliente</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography className={classes.print}>Nombre</Typography>
+                    </TableCell>
+                    <TableCell colSpan={2} align="right">
+                      <Typography className={classes.print}>{client?.firstName} {client?.lastName}</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography className={classes.print}>E-Mail</Typography>
+                    </TableCell>
+                    <TableCell colSpan={2} align="right">
+                      <Typography className={classes.print}>{client?.email}</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography className={classes.print}>Teléfono</Typography>
+                    </TableCell>
+                    <TableCell colSpan={2} align="right">
+                      <Typography className={classes.print}>{client?.phone}</Typography>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -131,16 +162,20 @@ const ThankYouPage = () => {
                   </TableRow>
                   {order && order.products.map((product) => (
                   <TableRow key={product.id}>
-                    <TableCell className={classes.img}>
-                      <img
-                        src={product.image}
-                        onError={(e) => e.target.src = '/img/no-image-icon.png'}
-                        height={40}
-                        alt={product.name}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2" className={classes.print}>{product.quantity} &times; {product.name}</Typography>
+                    <TableCell colSpan={2}>
+                      <Grid container alingItems="center">
+                        <Grid item xs>
+                          <img
+                            src={product.image}
+                            onError={(e) => e.target.src = '/img/no-image-icon.png'}
+                            height={40}
+                            alt={product.name}
+                          />
+                        </Grid>
+                        <Grid container item xs={10} alignItems="center">
+                          <Typography variant="body2" className={classes.print}>{product.quantity} &times; {product.name}</Typography>
+                        </Grid>
+                      </Grid>
                     </TableCell>
                     <TableCell align="right">
                       <Typography variant="body2" noWrap className={classes.print}>{asPrice(product.price)}</Typography>
