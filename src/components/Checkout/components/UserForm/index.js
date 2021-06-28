@@ -19,7 +19,7 @@ const UserForm = ({ userClient, userData, setUserData, setIsLoading }) => {
   }, [setUserData, email, name, lastName, phone]);
 
   useEffect(() => {
-    const typingTimeout = setTimeout(() => searchUser(email), 1000);
+    const typingTimeout = setTimeout(() => searchUser(email), 500);
     const searchUser = async (email) => {
       if (!email) return;
       setIsLoading(true)
@@ -31,6 +31,7 @@ const UserForm = ({ userClient, userData, setUserData, setIsLoading }) => {
         setPhone(client.phone);
         setIsLoading(false);
       } catch (err) {
+        setUserData(userData => ({ ...userData, id: null }));
         setName(name => name ? name : '');
         setLastName(lastName => lastName ? lastName : '');
         setPhone(phone => phone ? phone : '');

@@ -33,6 +33,7 @@ const Header = ({ categories }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const history = useHistory();
   const classes = useStyles();
+
   const toggleMenu = (state=null, event) => {
     if (event && (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))) {
       return;
@@ -43,6 +44,7 @@ const Header = ({ categories }) => {
       setIsMenuOpen(!isMenuOpen);
     }
   }
+
   const handleClick = (category) => {
     let url = `/category/${category.id}`
     if (category.id === 0) {
@@ -51,6 +53,12 @@ const Header = ({ categories }) => {
     history.push(url);
     toggleMenu(false);
   }
+
+  const goToHome = () => {
+    history.push("/");
+    toggleMenu(false);
+  }
+  
   return (
     <Box className={classes.root} displayPrint="none">
       <AppBar position="fixed">
@@ -74,6 +82,9 @@ const Header = ({ categories }) => {
         onClose={(event) => toggleMenu(false, event)}
       >
         <List>
+          <ListItem button onClick={() => goToHome()}>
+            <ListItemText primary="Home" />
+          </ListItem>
           {categories.map(cat => (
           <ListItem button key={cat.id} onClick={() => handleClick(cat)}>
             <ListItemText primary={cat.name} />
