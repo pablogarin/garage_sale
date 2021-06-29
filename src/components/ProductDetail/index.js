@@ -79,10 +79,15 @@ const ProductDetail = (props) => {
                 <Typography variant="h3">{product.name}</Typography>
               </Box>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <div>{product.image}</div>
+                <Grid item xs={12} sm={5}>
+                  <img
+                    alt={product.name}
+                    src={product.image}
+                    onError={(evt) => evt.target.src= '/img/no-image-icon.png'}
+                    width="100%"
+                  />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={7}>
                   <Typography variant="subtitle2" gutterBottom>
                     Disponible desde el {formatDate(product.availableDate)}
                   </Typography>
@@ -96,6 +101,7 @@ const ProductDetail = (props) => {
                         <Button
                           onClick={() => addToCart()}
                           variant="contained"
+                          color="primary"
                           disabled={isProductInCart || product?.stock <= 0}
                         >
                           {buttonText()}
