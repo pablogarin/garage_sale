@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useParams } from "react-router-dom";
 import Breadcrumb from '../../components/Breadcrumb';
+import Gallery from './Gallery';
 import useCart, {
   CART_ADD,
 } from '../../hooks/useCart';
@@ -80,12 +81,7 @@ const ProductDetail = (props) => {
               </Box>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={5}>
-                  <img
-                    alt={product.name}
-                    src={product.image}
-                    onError={(evt) => evt.target.src= '/img/no-image-icon.png'}
-                    width="100%"
-                  />
+                  <Gallery images={product.images} />
                 </Grid>
                 <Grid item xs={12} sm={7}>
                   <Typography variant="subtitle2" gutterBottom>

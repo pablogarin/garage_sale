@@ -6,24 +6,24 @@ class ProductClient {
   }
 
   async getAll(callback) {
-    const categories = await axios.request({
+    const response = await axios.request({
       url: `${this.apiUrl}/product`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
-      callback(categories.data);
+      callback(response.data);
     }
-    return categories.data
+    return response.data
   }
   async get(id, callback) {
-    const product = await axios.request({
+    const response = await axios.request({
       url: `${this.apiUrl}/product/${id}?category=1`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
-      callback(product.data);
+      callback(response.data);
     }
-    return product.data;
+    return response.data;
   }
 }
 

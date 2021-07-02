@@ -27,7 +27,7 @@ const ProductTile = (props) => {
   const {
     id,
     name,
-    image,
+    images,
     price,
     availableDate,
     showDetails,
@@ -79,10 +79,10 @@ const ProductTile = (props) => {
           component="img"
           alt={name}
           className={classes.media}
-          image={image}
+          image={images.length > 0 ? images[0] : '/res/no-image-icon.png' }
           title={name}
           onError={(e) => {
-            e.target.src = '/img/no-image-icon.png';
+            e.target.src = '/res/no-image-icon.png';
           }}
         />
         <CardContent>
