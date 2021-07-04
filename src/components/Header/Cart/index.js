@@ -49,7 +49,7 @@ const Cart = () => {
   return (
     <>
       <IconButton color="inherit" aria-controls="Carro" aria-haspopup="true" onClick={handleClick}>
-        <Badge badgeContent={products && products.length} color="secondary">
+        <Badge badgeContent={products && products.length} color="error">
           <ShoppingCartOutlinedIcon />
         </Badge>
       </IconButton>
@@ -82,7 +82,7 @@ const Cart = () => {
                     alignItems="flex-start"
                   >
                     <ListItemAvatar>
-                      <Avatar alt="Remy Sharp" src={product.image} />
+                      <Avatar alt={product.name} src={product.images[0]} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={product.name}

@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -19,7 +18,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: '10%',
+    height: 300,
   },
 });
 
@@ -72,9 +71,6 @@ const ProductTile = (props) => {
   return (
     <Card>
       <CardActionArea onClick={showDetails}>
-        <CardHeader
-          title={name}
-        />
         <CardMedia
           component="img"
           alt={name}
@@ -86,6 +82,7 @@ const ProductTile = (props) => {
           }}
         />
         <CardContent>
+          <Typography variant="subtitle1">{name}</Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             Disponible desde el {availableDate}
           </Typography>

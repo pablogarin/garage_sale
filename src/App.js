@@ -7,7 +7,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import deepOrange from '@material-ui/core/colors/deepOrange';
 import Cart from './components/Cart';
 import CartContext from './context/CartContext';
 import Catalogue from './components/Catalogue';
@@ -20,6 +22,17 @@ import ThankYouPage from './components/ThankYouPage';
 
 const categoryClient = new CategoryClient(process.env.REACT_APP_API_URL);
 const productClient = new ProductClient(process.env.REACT_APP_API_URL);
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blueGrey[600],
+    },
+    secondary: {
+      main: deepOrange[200],
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -40,35 +53,38 @@ function App() {
   }, []);
 
   return (
-    <CartContext.Provider value={value}>
-      <CssBaseline />
-      <Header categories={categories}/>
-      <Container maxWidth="lg">
-        <Switch>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-          <Route path="/category/:categoryId">
-            <Catalogue categoryClient={categoryClient}></Catalogue>
-          </Route>
-          <Route path="/product/:productId">
-            <ProductDetail productClient={productClient}></ProductDetail>
-          </Route>
-          <Route path="/thank-you/:orderId">
-            <ThankYouPage />
-          </Route>
-          <Route path="/checkout">
-            <Checkout setIsLoading={setIsLoading} />
-          </Route>
-          <Route path="/">
-            <Catalogue productClient={productClient}></Catalogue>
-          </Route>
-        </Switch>
-      </Container>
-      <Backdrop className={classes.backdrop} open={isLoading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    </CartContext.Provider>
+    <ThemeProvider theme={theme}>
+
+      <CartContext.Provider value={value}>
+        <CssBaseline />
+        <Header categories={categories}/>
+        <Container maxWidth="lg">
+          <Switch>
+            <Route path="/cart">
+              <Cart />
+            </Route>
+            <Route path="/category/:categoryId">
+              <Catalogue categoryClient={categoryClient}></Catalogue>
+            </Route>
+            <Route path="/product/:productId">
+              <ProductDetail productClient={productClient}></ProductDetail>
+            </Route>
+            <Route path="/thank-you/:orderId">
+              <ThankYouPage />
+            </Route>
+            <Route path="/checkout">
+              <Checkout setIsLoading={setIsLoading} />
+            </Route>
+            <Route path="/">
+              <Catalogue productClient={productClient}></Catalogue>
+            </Route>
+          </Switch>
+        </Container>
+        <Backdrop className={classes.backdrop} open={isLoading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </CartContext.Provider>
+    </ThemeProvider>
   );
 }
 

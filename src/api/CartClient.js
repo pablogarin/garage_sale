@@ -10,7 +10,10 @@ class CartClient {
       url: `${this.apiUrl}/cart/${id}?products=1`,
       method: 'GET'
     });
-    callback(cart.data);
+    if (typeof callback === 'function') {
+      callback(cart.data);
+    }
+    return cart.data;
   }
 
   async createCart(callback) {
@@ -20,8 +23,11 @@ class CartClient {
       data: {
         products: []
       }
-    })
-    callback(cart)
+    });
+    if (typeof callback === 'function') {
+      callback(cart);
+    }
+    return cart;
   }
 
   async updateCart(id, payload, callback) {
@@ -31,8 +37,11 @@ class CartClient {
       data: {
         products: payload.products || []
       }
-    })
-    callback(cart)
+    });
+    if (typeof callback === 'function') {
+      callback(cart);
+    }
+    return cart;
   }
 }
 

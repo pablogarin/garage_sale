@@ -86,13 +86,19 @@ const CheckoutSteps = ({
         <Grid item xs={12}>
           <Stepper activeStep={activeStep} alternativeLabel>
             <Step key="1">
-              <StepLabel>Identificación</StepLabel>
+              <StepLabel>
+                <Box display={{ xs: 'none', sm: 'block'}}>Identificación</Box>
+              </StepLabel>
             </Step>
             <Step key="2">
-              <StepLabel>Dirección</StepLabel>
+              <StepLabel>
+              <Box display={{ xs: 'none', sm: 'block'}}>Entrega</Box>
+              </StepLabel>
             </Step>
             <Step key="3">
-              <StepLabel>Pago</StepLabel>
+              <StepLabel>
+                <Box display={{ xs: 'none', sm: 'block'}}>Pago</Box>
+              </StepLabel>
             </Step>
           </Stepper>
         </Grid>

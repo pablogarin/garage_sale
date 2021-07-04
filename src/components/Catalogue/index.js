@@ -3,10 +3,17 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useParams } from "react-router-dom";
 import Breadcrumb from '../Breadcrumb';
 import ProductTile from './ProductTile';
 import FilterBar from './FilterBar';
+
+const useStyles = makeStyles(() => ({
+  filterBar: {
+    marginBottom: 24
+  }
+}));
 
 const Catalogue = ({ categoryClient, productClient }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +24,7 @@ const Catalogue = ({ categoryClient, productClient }) => {
   const history = useHistory();
   const params = useParams();
   const { categoryId } = params;
+  const classes = useStyles();
 
   useEffect(() => {
     setIsLoading(true);
@@ -66,7 +74,7 @@ const Catalogue = ({ categoryClient, productClient }) => {
         <h1><Skeleton variant="text" /></h1>
         <Grid container spacing={2}>
         { emptyList.map((i) => (
-          <Grid item xs={3} key={i}>
+          <Grid item xs={12} sm={6} md={3} key={i}>
             <Skeleton variant="rect" height={240} />
           </Grid>
         )) }
@@ -79,15 +87,17 @@ const Catalogue = ({ categoryClient, productClient }) => {
       {isLoading ? renderSkeleton() : (
         <>
           <Breadcrumb links={links} />
-          <Typography variant="h4">Categoría {name}</Typography>
-          <Grid container spacing={2}>
+          <Box py={2}>
+            <Typography variant="h4">{name}</Typography>
+          </Box>
+          <Grid container spacing={2} className={classes.filterBar}>
             <Grid item xs={12}>
               <FilterBar setSortMethod={setSortMethod} />
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="baseline">
+          <Grid container spacing={2} alignItems="stretch">
             { !!products ? products.map(product => (
-            <Grid item xs={3} key={product.id}>
+            <Grid item xs={12} sm={6} md={3} key={product.id}>
               <ProductTile showDetails={() => showDetails(product)} {...product} />
             </Grid>
             )) : (

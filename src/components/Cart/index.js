@@ -110,7 +110,7 @@ const Cart = () => {
         </Grid>
       </Grid>
       <Box mt={3}>
-        <Grid container justify="center" align="center">
+        <Grid container justify="center" align="center" spacing={2}>
           <Grid item xs={6}>
             <Button
               variant="contained"

@@ -14,6 +14,20 @@ const useCart = () => {
   const cartId = localStorage.getItem('cartId');
   
   useEffect(() => {
+    const getCart = async () => {
+      try {
+        const response = await cartClient.get(cartId);
+        if (response.finished) {
+          localStorage.removeItem('cartId');
+          setCart(null);
+        } else {
+          setCart(response);
+        }
+      } catch (e) {
+        localStorage.removeItem('cartId');
+        setCart(null);
+      }
+    }
     const cartId = localStorage.getItem('cartId');
     if (!cartId) {
       cartClient.createCart(({ data: cart }) => {
@@ -22,65 +36,54 @@ const useCart = () => {
       });
     } else {
       if (!cart) {
-        cartClient.get(cartId, (cart) => {
-          if (cart.finished) {
-            localStorage.removeItem('cartId');
-            setCart(null);
-          } else {
-            setCart(cart);
-          }
-        });
+        getCart();
       }
     }
   }, [cart, setCart]);
 
-  const dispatch = action => {
+  const dispatch = async (action) => {
     setIsLoading(true);
-    switch(action.type) {
-      case CART_ADD:{
-        const { product } = action.payload;
-        console.log(product);
-        if (product.stock <= 0) {
-          throw new Error('not enough stock');
-        }
-        cartClient.updateCart(
-          cartId,
-          { products: [{ ...product, quantity: 1 }] },
-          ({ data: cart }) => {
-            setCart(cart);
-            setIsLoading(false);
+    try {
+      switch(action.type) {
+        case CART_ADD:{
+          const { product } = action.payload;
+          if (product.stock <= 0) {
+            throw new Error('not enough stock');
           }
-        );
-        break;
-      }
-      case CART_DEL:{
-        const { product } = action.payload;
-        cartClient.updateCart(
-          cartId,
-          { products: [{...product, quantity: 0}] },
-          ({ data: cart }) => {
-            setCart(cart);
-            setIsLoading(false);
-          }
-        );
-        break;
-      }
-      case CART_EMPTY:{
-        if (cartId) {
-          cartClient.updateCart(
+          const { data } = await cartClient.updateCart(
             cartId,
-            { products: cart.products.map(prd => ({...prd, quantity: 0})) },
-            ({ data: cart }) => {
-              setCart(cart);
-              setIsLoading(false);
-            }
+            { products: [{ ...product, quantity: 1 }] },
           );
+          setCart(data);
+          break;
         }
-        break;
+        case CART_DEL:{
+          const { product } = action.payload;
+          const { data } = await cartClient.updateCart(
+            cartId,
+            { products: [{...product, quantity: 0}] }
+          );
+          setCart(data);
+          break;
+        }
+        case CART_EMPTY:{
+          if (cartId) {
+            const response = await cartClient.updateCart(
+              cartId,
+              { products: cart.products.map(prd => ({...prd, quantity: 0})) }
+            );
+            setCart(response);
+          }
+          break;
+        }
+        default: {
+          setCart(cart);
+        }
       }
-      default: {
-        setCart(cart);
-      }
+    } catch (e) {
+      alert(`Error: ${e}`);
+    } finally {
+      setIsLoading(false);
     }
   };
   return [cart, dispatch, isLoading];

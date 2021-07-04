@@ -16,6 +16,14 @@ const Summary = ({ cart }) => {
   const goToCart = () => {
     history.push('/cart');
   }
+
+  const getProductImage = (product) => {
+    if (product.images.length > 0) {
+      return product.images[0];
+    }
+    return '/res/no-image-icon.png';
+  }
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -26,7 +34,7 @@ const Summary = ({ cart }) => {
                 <Typography variant="subtitle1">Resumen</Typography>
               </TableCell>
               <TableCell align="right">
-                <Link onClick={() => goToCart()} variant="link">Editar Carro</Link>
+                <Link onClick={() => goToCart()} variant="inherit">Editar Carro</Link>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -40,8 +48,8 @@ const Summary = ({ cart }) => {
             <TableRow key={product.id}>
               <TableCell>
                 <img
-                  src={product.image}
-                  onError={(e) => e.target.src = '/img/no-image-icon.png'}
+                  src={getProductImage(product)}
+                  onError={(e) => e.target.src = '/res/no-image-icon.png'}
                   height={40}
                   alt={product.name}
                 />

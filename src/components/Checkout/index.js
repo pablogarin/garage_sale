@@ -77,7 +77,7 @@ const Checkout = ({ setIsLoading }) => {
   return (
     <Box py={3}>
       <Grid container spacing={2} justify="space-between">
-        <Grid item xs={8}>
+        <Grid item sm={12} md={8}>
           <Paper>
             <Box p={2}>
               <CheckoutSteps
@@ -95,7 +95,7 @@ const Checkout = ({ setIsLoading }) => {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item sm={12} md={4}>
           <Summary cart={cart} />
         </Grid>
       </Grid>
