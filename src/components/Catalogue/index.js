@@ -47,6 +47,12 @@ const Catalogue = ({ categoryClient, productClient }) => {
     } else {
       productClient.getAll((products) => {
         setName('Home');
+        setLinks([
+          {
+            label: 'Home',
+            href: '/'
+          },
+        ])
         setProducts(products);
         setIsLoading(false);
       });
@@ -87,7 +93,7 @@ const Catalogue = ({ categoryClient, productClient }) => {
       {isLoading ? renderSkeleton() : (
         <>
           <Breadcrumb links={links} />
-          <Box py={2}>
+          <Box pb={2}>
             <Typography variant="h4">{name}</Typography>
           </Box>
           <Grid container spacing={2} className={classes.filterBar}>

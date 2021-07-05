@@ -7,6 +7,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
+import Fab from '@material-ui/core/Fab';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import deepOrange from '@material-ui/core/colors/deepOrange';
@@ -39,6 +41,21 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  root: {
+    marginBottom: 80,
+  },
+  whatsappBtn: {
+    backgroundColor: '#075E54',
+    color: '#fff',
+    position: 'fixed',
+    bottom: 20,
+    right: 20,
+    zIndex: 1002,
+    fontWeight: 700,
+    '&:hover': {
+      backgroundColor: '#128C7E',
+    }
+  }
 }));
 
 function App() {
@@ -54,11 +71,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-
       <CartContext.Provider value={value}>
         <CssBaseline />
         <Header categories={categories}/>
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" className={classes.root}>
           <Switch>
             <Route path="/cart">
               <Cart />
@@ -84,6 +100,14 @@ function App() {
           <CircularProgress color="inherit" />
         </Backdrop>
       </CartContext.Provider>
+      <Fab
+        variant="extended"
+        onClick={() => window.open('https://wa.me/56948718009')}
+        className={classes.whatsappBtn}
+      >
+        <WhatsAppIcon fontSize="large" />
+        &nbsp;(+56) 9 4871 8009
+      </Fab>
     </ThemeProvider>
   );
 }

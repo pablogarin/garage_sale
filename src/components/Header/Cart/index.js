@@ -12,17 +12,31 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Menu from '@material-ui/core/Menu';
+import Paper from '@material-ui/core/Paper';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import useCart, { CART_DEL } from '../../../hooks/useCart';
 import { asPrice } from '../../../utils/productUtils';
+
+const useStyles = makeStyles((theme) => ({
+  cartAction: {
+    width: '100%'
+  },
+  cartTotal: {
+    width: '100%'
+  }
+}));
 
 const Cart = () => {
   const [cart, dispatch] = useCart();
   const [products, setProducts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
+
+  const classes = useStyles();
 
   useEffect(() => {
     if (cart) {
@@ -62,8 +76,8 @@ const Cart = () => {
       >
         <Grid container>
           <Grid item xs={12}>
-            <Box  m={3}>
-              <Typography>Carro de Compras</Typography>
+            <Box p={2} align="center">
+              <Typography variant="h6" noWrap>Carro de Compras</Typography>
             </Box>
           </Grid>
         </Grid>
@@ -105,21 +119,38 @@ const Cart = () => {
                 ))}
               </List>
             </Grid>
-            <Grid item xs={12} container justify="flex-end">
-              <Box px={4}>
-                <Typography>{asPrice(cart.total)}</Typography>
+            <Grid item xs={12} container justify="flex-end" alignItems="stretch">
+              <Box mt={2} px={1} align="right" className={classes.cartTotal}>
+                <Typography variant="h6" noWrap>Total: {asPrice(cart.total)}</Typography>
               </Box>
             </Grid>
-            <Grid item>
-              <Box mt={3}>
-                <Button variant="contained" color="primary" onClick={goToCart}>Ir a Pagar</Button>
+            <Grid
+              container
+              item
+              xs={12}
+              spacing={2}
+              justify="space-between"
+            >
+              <Box mt={2} p={1} className={classes.cartAction}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={goToCart}
+                  fullWidth
+                  size="large"
+                >
+                  Ir a Pagar&nbsp;
+                  <ArrowForwardRoundedIcon />
+                </Button>
               </Box>
             </Grid>
           </Grid>
         ) : (
-          <Grid container>
-            <Box p={2}>
-              <Typography>Carro Vacio</Typography>
+          <Grid container spacing={2}>
+            <Box p={2} className={classes.cartTotal} align="center">
+              <Paper variant="outlined">
+                <Typography variant="h6">Carro Vacio</Typography>
+              </Paper>
             </Box>
           </Grid>
         )}

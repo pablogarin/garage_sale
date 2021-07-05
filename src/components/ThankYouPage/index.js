@@ -87,7 +87,7 @@ const ThankYouPage = () => {
   return (
     <>
     <Grid container justify="center" align="center" className={classes.root}>
-      <Grid item xs={8}>
+      <Grid item xs={12} md={8}>
         <Paper className={`${classes.print} ${classes.paper}`}>
           <Box p={4}>
             <Box displayPrint="none">

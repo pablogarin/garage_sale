@@ -10,6 +10,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     height: 350,
     overflow: 'hidden',
+    cursor: 'pointer'
   },
   image: {
     height: '100%',
@@ -18,11 +19,16 @@ const useStyles = makeStyles(() => ({
 
 const Gallery = ({ images }) => {
   const classes = useStyles();
+
+  const openImage = (url) => {
+    window.open(url, '_blank')
+  }
+
   return (
     <div>
       <Slide easing="ease">
         {images && images.map(image => (
-        <div>
+        <div onClick={() => openImage(image)}>
           <div className={classes.slide}>
             <img
              src={image}

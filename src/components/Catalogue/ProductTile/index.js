@@ -13,14 +13,28 @@ import useCart, {
 } from '../../../hooks/useCart';
 import { asPrice } from '../../../utils/productUtils';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
   },
   media: {
     height: 300,
   },
-});
+  sold: {
+    position: 'absolute',
+    backgroundColor: theme.palette.error.main,
+    color: '#fff',
+    padding: 12,
+    textAlign: 'center',
+    zIndex: 100,
+    width: '100%'
+  },
+  productName: {
+    height: '4em',
+    display: 'flex',
+    alignItems: 'center'
+  }
+}));
 
 const ProductTile = (props) => {
   const {
@@ -63,47 +77,56 @@ const ProductTile = (props) => {
       return 'Producto Agregado';
     }
     if (stock <= 0) {
-      return 'Sin Stock';
+      return 'Vendido';
     }
     return 'Agregar al Carro';
   }
 
   return (
-    <Card>
-      <CardActionArea onClick={showDetails}>
-        <CardMedia
-          component="img"
-          alt={name}
-          className={classes.media}
-          image={images.length > 0 ? images[0] : '/res/no-image-icon.png' }
-          title={name}
-          onError={(e) => {
-            e.target.src = '/res/no-image-icon.png';
-          }}
-        />
-        <CardContent>
-          <Typography variant="subtitle1">{name}</Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Disponible desde el {availableDate}
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2">
-            {asPrice(price)}
-          </Typography>
-        </CardContent>  
-      </CardActionArea>
-      <CardActions>
-        <Grid container justify="center">
-          <Button
-            color="primary"
-            onClick={addToCart}
-            disabled={isProductInCart || stock <= 0}
-            variant="contained"
+    <>
+      <Card>
+        <CardActionArea onClick={showDetails}>
+          <CardMedia
+            alt={name}
+            className={classes.media}
+            image={images.length > 0 ? images[0] : '/res/no-image-icon.png' }
+            title={name}
+            onError={(e) => {
+              e.target.src = '/res/no-image-icon.png';
+            }}
           >
-            {buttonText()}
-          </Button>
-        </Grid>
-      </CardActions>
-    </Card>
+            {stock <= 0 && (
+              <div className={classes.sold}>
+                <Typography variant="h6">VENDIDO</Typography>
+              </div>
+            )}
+          </CardMedia>
+          <CardContent>
+            <Typography variant="subtitle1" className={classes.productName}>{name}</Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Disponible desde el {availableDate}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="h2">
+              {asPrice(price)}
+            </Typography>
+          </CardContent>  
+        </CardActionArea>
+        <CardActions>
+          <Grid container justify="center">
+            <Button
+              color="primary"
+              onClick={addToCart}
+              disabled={isProductInCart || stock <= 0}
+              variant="contained"
+              fullWidth
+              size="large"
+            >
+              {buttonText()}
+            </Button>
+          </Grid>
+        </CardActions>
+      </Card>
+    </>
   );
 }
 
