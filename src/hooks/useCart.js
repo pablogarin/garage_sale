@@ -15,75 +15,93 @@ const useCart = () => {
   
   useEffect(() => {
     const getCart = async () => {
-      try {
-        const response = await cartClient.get(cartId);
-        if (response.finished) {
+      if (!isLoading) {
+        setIsLoading(true);
+        try {
+          const response = await cartClient.get(cartId);
+          if (response.finished) {
+            localStorage.removeItem('cartId');
+            setCart(null);
+          } else {
+            setCart(response);
+          }
+        } catch (e) {
           localStorage.removeItem('cartId');
           setCart(null);
-        } else {
-          setCart(response);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (e) {
-        localStorage.removeItem('cartId');
-        setCart(null);
+      }
+    }
+    const createCart = async () => {
+      if (!isLoading) {
+        setIsLoading(true);
+        try {
+          const { data: cart } = await cartClient.createCart();
+          localStorage.setItem('cartId', cart.id);
+          setCart(cart);
+        } catch (e) {
+          console.error('Unable to create cart', e);
+        } finally {
+          setIsLoading(false);
+        }
       }
     }
     const cartId = localStorage.getItem('cartId');
     if (!cartId) {
-      cartClient.createCart(({ data: cart }) => {
-        localStorage.setItem('cartId', cart.id);
-        setCart(cart);
-      });
+      createCart()
     } else {
       if (!cart) {
         getCart();
       }
     }
-  }, [cart, setCart]);
+  }, [isLoading, setIsLoading, cart, setCart]);
 
   const dispatch = async (action) => {
-    setIsLoading(true);
-    try {
-      switch(action.type) {
-        case CART_ADD:{
-          const { product } = action.payload;
-          if (product.stock <= 0) {
-            throw new Error('not enough stock');
-          }
-          const { data } = await cartClient.updateCart(
-            cartId,
-            { products: [{ ...product, quantity: 1 }] },
-          );
-          setCart(data);
-          break;
-        }
-        case CART_DEL:{
-          const { product } = action.payload;
-          const { data } = await cartClient.updateCart(
-            cartId,
-            { products: [{...product, quantity: 0}] }
-          );
-          setCart(data);
-          break;
-        }
-        case CART_EMPTY:{
-          if (cartId) {
-            const response = await cartClient.updateCart(
+    if (!isLoading) {
+      setIsLoading(true);
+      try {
+        switch(action.type) {
+          case CART_ADD:{
+            const { product } = action.payload;
+            if (product.stock <= 0) {
+              throw new Error('not enough stock');
+            }
+            const { data } = await cartClient.updateCart(
               cartId,
-              { products: cart.products.map(prd => ({...prd, quantity: 0})) }
+              { products: [{ ...product, quantity: 1 }] },
             );
-            setCart(response);
+            setCart(data);
+            break;
           }
-          break;
+          case CART_DEL:{
+            const { product } = action.payload;
+            const { data } = await cartClient.updateCart(
+              cartId,
+              { products: [{...product, quantity: 0}] }
+            );
+            setCart(data);
+            break;
+          }
+          case CART_EMPTY:{
+            if (cartId) {
+              const response = await cartClient.updateCart(
+                cartId,
+                { products: cart.products.map(prd => ({...prd, quantity: 0})) }
+              );
+              setCart(response);
+            }
+            break;
+          }
+          default: {
+            setCart(cart);
+          }
         }
-        default: {
-          setCart(cart);
-        }
+      } catch (e) {
+        alert(`Error: ${e}`);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (e) {
-      alert(`Error: ${e}`);
-    } finally {
-      setIsLoading(false);
     }
   };
   return [cart, dispatch, isLoading];
