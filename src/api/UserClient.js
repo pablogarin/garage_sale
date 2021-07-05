@@ -7,7 +7,7 @@ class UserClient {
 
   async get(id, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/user/${id}`,
+      url: `${this.apiUrl}/users/${id}`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
@@ -18,7 +18,7 @@ class UserClient {
 
   async find(email, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/user?email=${email}`,
+      url: `${this.apiUrl}/users?email=${email}`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
@@ -29,7 +29,7 @@ class UserClient {
 
   async create(userData, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/user`,
+      url: `${this.apiUrl}/users`,
       method: 'POST',
       data: {
         'first_name': userData.name,
@@ -46,7 +46,7 @@ class UserClient {
 
   async update(id, userData, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/user/${id}`,
+      url: `${this.apiUrl}/users/${id}`,
       method: 'PUT',
       data: {
         'first_name': userData.name,

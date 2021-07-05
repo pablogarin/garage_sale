@@ -7,7 +7,7 @@ class ProductClient {
 
   async getAll(callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/product`,
+      url: `${this.apiUrl}/products`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
@@ -17,7 +17,7 @@ class ProductClient {
   }
   async get(id, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/product/${id}?category=1`,
+      url: `${this.apiUrl}/products/${id}?category=1`,
       method: 'GET'
     });
     if (typeof callback === 'function') {

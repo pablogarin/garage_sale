@@ -7,14 +7,14 @@ class CategoryClient {
 
   async getAll() {
     const categories = await axios.request({
-      url: `${this.apiUrl}/category`,
+      url: `${this.apiUrl}/categories`,
       method: 'GET'
     });
     return categories.data
   }
   async get(id, callback) {
     const category = await axios.request({
-      url: `${this.apiUrl}/category/${id}?products=1`,
+      url: `${this.apiUrl}/categories/${id}?products=1`,
       method: 'GET'
     });
     callback(category.data);

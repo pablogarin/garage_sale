@@ -7,7 +7,7 @@ class CartClient {
 
   async get(id, callback) {
     const cart = await axios.request({
-      url: `${this.apiUrl}/cart/${id}?products=1`,
+      url: `${this.apiUrl}/carts/${id}?products=1`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
@@ -18,7 +18,7 @@ class CartClient {
 
   async createCart(callback) {
     const cart = await axios.request({
-      url: `${this.apiUrl}/cart`,
+      url: `${this.apiUrl}/carts`,
       method: 'POST',
       data: {
         products: []
@@ -32,7 +32,7 @@ class CartClient {
 
   async updateCart(id, payload, callback) {
     const cart = await axios.request({
-      url: `${this.apiUrl}/cart/${id}`,
+      url: `${this.apiUrl}/carts/${id}`,
       method: 'PUT',
       data: {
         products: payload.products || []

@@ -7,7 +7,7 @@ class OrderClient {
 
   async get(id, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/order/${id}`,
+      url: `${this.apiUrl}/orders/${id}`,
       method: 'GET'
     });
     if (typeof callback === 'function') {
@@ -18,7 +18,7 @@ class OrderClient {
 
   async create(order, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/order`,
+      url: `${this.apiUrl}/orders`,
       method: 'POST',
       data: {
         email: order.user.email,
@@ -36,7 +36,7 @@ class OrderClient {
 
   async update(id, data, callback) {
     const response = await axios.request({
-      url: `${this.apiUrl}/order/${id}`,
+      url: `${this.apiUrl}/orders/${id}`,
       method: 'PUT',
       data: {
         
