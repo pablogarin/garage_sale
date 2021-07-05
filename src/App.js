@@ -12,6 +12,7 @@ import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import deepOrange from '@material-ui/core/colors/deepOrange';
+import Banner from './components/Banner';
 import Cart from './components/Cart';
 import CartContext from './context/CartContext';
 import Catalogue from './components/Catalogue';
@@ -92,6 +93,7 @@ function App() {
               <Checkout setIsLoading={setIsLoading} />
             </Route>
             <Route path="/">
+              <Banner />
               <Catalogue productClient={productClient}></Catalogue>
             </Route>
           </Switch>
@@ -106,7 +108,7 @@ function App() {
         className={classes.whatsappBtn}
       >
         <WhatsAppIcon fontSize="large" />
-        &nbsp;(+56) 9 4871 8009
+        &nbsp;Contacto
       </Fab>
     </ThemeProvider>
   );
